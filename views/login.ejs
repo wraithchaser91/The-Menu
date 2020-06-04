@@ -1,0 +1,15 @@
+<div id="hero" class="flex-column">
+    <h1>Login</h1>
+    <div class="raisedDiv flex-column">
+        <form action="/auth/login" method="POST">
+            <label for="username">Username</label>
+            <input type="text" name="username" required autofocus>
+            <label for="password">Password</label>
+            <input type="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+        <% if(typeof message.error != "undefined"){ %>
+            <h3 class="error">Please enter valid credentials</h3>
+        <%}%>
+    </div>
+</div>

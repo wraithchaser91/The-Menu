@@ -7,7 +7,7 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const {checkAuthentication} = require("../middleware");
 
-router.get("/", async(req, res)=>{
+router.get("/", checkAuthentication, (req, res)=>{
     render(req,res,"index");
 });
 
@@ -25,10 +25,6 @@ router.post("/newuser", cleanBody, async(req,res)=>{
     }
     req.logOut();
     res.redirect("/");
-});
-
-router.get("/staging", checkAuthentication, (req,res)=>{
-    render(req,res,"staging");
 });
 
 module.exports = router;

@@ -75,6 +75,12 @@ body{
     width:100vw;
 }
 
+nav{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 nav a{
     color: var(--mainColour);
     cursor: pointer;
@@ -212,7 +218,7 @@ form label{
     justify-content: flex-start;
     scrollbar-color: var(--mainColour) var(--altBGColour);
     scrollbar-width: thin;
-
+    min-width:20vw;
 }
 
 .scrollable{
@@ -234,4 +240,16 @@ form label{
     border-top:1px solid #12121288;
     margin-top:3.5vh;
     padding:2vh 7vw;
+}
+
+#logoutForm button{
+    background-color: transparent;
+    color: var(--mainColour);
+    margin-bottom:0;
+    padding:0;
+    font-size: 16px;
+}
+
+#logoutForm button:hover{
+    color:var(--tertiaryColour);
 }
