@@ -1,0 +1,11 @@
+<h2>New Section for <%= menu.name %></h2>
+<div class="flex-column raisedDiv">
+    <form action="<%= `/section/new/${menu._id}/${page._id}` %>" method="POST">
+        <label for="name">Name Of Section</label>
+        <input type="text" name="name" required autofocus>
+        <label for="description">Section Description</label>
+        <textarea rows="3" cols="20" name="description"></textarea>
+        <button type="submit">Create</button>
+    </form>
+</div>
+<a href=<%= `/menu/view/${menu._id}` %>>Back</a>

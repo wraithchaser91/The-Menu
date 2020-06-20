@@ -7,22 +7,24 @@ errorLog = (e,req,res,message,redirect="none") => {
     }
 }
 
-render = async(req, res, target, json={}) =>{
-    try{
-        res.render(target, Object.assign({
-            user:req.user,
-            message:req.flash()
-        },json));
-    }catch(e){
-        errorLog(e);
-        res.render(target, Object.assign({
-            user:req.user,
-            message:req.flash()
-        },json));
+render = (req, res, target, json={}) =>{
+    res.render(target, Object.assign({
+        user:req.user,
+        message:req.flash()
+    },json));
+}
+
+checkValue = (req,res,value, err, redirect="/") =>{
+    if(!value || value == "undefined"){
+        req.flash("error", err);
+        res.redirect(redirect);
+        return false;
     }
+    return true;
 }
 
 module.exports = {
     errorLog,
-    render
+    render,
+    checkValue
 }

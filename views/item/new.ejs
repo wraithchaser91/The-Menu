@@ -1,0 +1,15 @@
+<h2>New Item for <%= section.name %></h2>
+<div class="flex-column raisedDiv">
+    <form action="<%= `/item/new/${menu._id}/${section._id}` %>" method="POST">
+        <label for="name">Name Of Item</label>
+        <input type="text" name="name" required autofocus>
+        <label for="description">Item Description</label>
+        <textarea rows="3" cols="20" name="description"></textarea>
+        <label for="price">Price of Item</label>
+        <input type="number" name="price" min=0 step=0.01 required>
+        <label for="hasImage">Will this item have an image?</label>
+        <input type="checkbox">
+        <button type="submit">Create</button>
+    </form>
+</div>
+<a href=<%= `/section/view/${menu._id}/${section._id}` %>>Back</a>

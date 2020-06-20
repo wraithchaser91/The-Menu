@@ -1,0 +1,78 @@
+<div id="overlay"></div>
+<h1><%= menu.name %></h1>
+<h4>Status: <%= `${menu.status!=0?"Active":"Not Active"}${menu.isPrimary?"/Primary":""}` %></h4>
+<h4>Style: <%= `${pages.length} Pages` %></h4>
+<%let n=0;for(let a of sections)n+=a.length;%>
+<h4>Total number of sections: <%= `${n}`%></h4>
+
+<button id="saveLayoutButton">Save New Layout</button>
+
+<div class="flex-row pageRow" data="<%= menu._id %>">
+<%for(let index in pages){%>
+    <div class="flex-column raisedDiv draggableContainer" data="<%= pages[index]._id %>">
+        <h2><%= typeof pages[index].name=="undefined"||pages[index].name==""?`Page ${parseInt(index)+1}`:pages[index].name %></h2>
+        <a href="<%= `/section/new/${menu._id}/${pages[index]._id}` %>">Add New Section</a>
+        <%let section = sections[index]; %>
+        <%section.forEach(item=>{%>
+            <div class="flex-row raisedDiv menuItem draggableItem" draggable="true" data="<%= item._id %>">
+                <div class="flex-column infoColumn">
+                    <h3><%= item.name %></h3>
+                    <p><%= item.description %></p>
+                </div>
+                <div class="flex-column buttonColumn">
+                    <form action="<%= `/section/${item.status==0?"activate":"deactivate"}/${menu._id}/${item._id}` %>" method="POST"><button><%= item.status==0?"Activate":"Deactivate"%></button></form>
+                    <a href="<%= `/section/view/${menu._id}/${item._id}` %>">Open</a>
+                    <a href="<%= `/section/edit/${menu._id}/${item._id}` %>">Edit</a>
+                    <h4 class="deleteButton" data="<%= `section/${menu._id}/${pages[index]._id}/${item._id}` %>">Delete</h4>
+                </div>
+                
+            </div>
+        <%})%>
+    </div>
+<%}%>
+</div>
+
+<div class="flex-column raisedDiv" id="popup">
+    <h2>Irreversible Action Started</h2>
+    <p>Are you sure you wish to delete this section? Once done it can not be recovered</p>
+    <p>If this is a temporary thing you should deactivate the section instead</p>
+    <form action="" method="POST" id="deleteForm">
+        <button>Delete</button>
+    </form>
+    <h4 id="cancelPopup">Back</h4>
+</div>
+
+<a href="/">Back</a>
+
+<script src="/js/popup.js"></script>
+
+<script>
+saveConfig = () =>{
+    let pages = document.getElementsByClassName("draggableContainer");
+    let sections = [];
+    for(let page of pages){
+        sections.push(page.getElementsByClassName("draggableItem"));
+    }
+
+    let obj = [];
+    for(let i = 0; i < pages.length; i++){
+        let pageId = pages[i].getAttribute("data");
+        let sectionIds = [];
+        for(let section of sections[i]){
+            sectionIds.push(section.getAttribute("data"));
+        }
+        obj.push({id:pageId,sections:sectionIds});
+    }
+    let data = JSON.stringify(obj);
+    let form = document.createElement("form");
+    form.action = `/section/rearrange/${document.getElementsByClassName("pageRow")[0].getAttribute("data")}`;
+    form.method = "POST";
+    form.style.display = "none";
+    let field = document.createElement("input");
+    field.value = data;
+    field.name = "data";
+    form.appendChild(field);
+    document.getElementsByTagName("body")[0].appendChild(form);
+    form.submit();
+}
+</script>

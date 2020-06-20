@@ -1,0 +1,12 @@
+<h1>Editing Profile</h1>
+
+<form action="/profile/edit" method="POST">
+    <h2>Currency</h2>
+    <label for="currency">Choose your currency</label>
+    <select name="currency">
+        <%currencyOptions.forEach(item=>{%>
+            <option <%= item==user.currency?"selected":""%> value="<%= item %>"><%= item %></option>
+        <%})%>
+    </select>
+    <button type="submit">Save</button>
+</form>

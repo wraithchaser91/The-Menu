@@ -1,0 +1,12 @@
+<h1>Editing the <%= menu.name %></h1>
+
+<div class="flex-column raisedDiv">
+    <form action="<%= `/menu/edit/${menu._id}` %>" method="POST">
+        <label for="name">Name Of Menu</label>
+        <input type="text" name="name" required value="<%= menu.name %>">
+        <label for="description">Menu Description</label>
+        <textarea rows="3" cols="20" name="description"><%= menu.description %></textarea>
+        <button type="submit">Save</button>
+    </form>
+</div>
+<a href="/">Back</a>

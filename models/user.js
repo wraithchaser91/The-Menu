@@ -13,6 +13,18 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: true,
         default:0
+    },
+    currency:{
+        type: String,
+        default: "£, Great British Pound"
+    },
+    activeFilters:{
+        type: [String],
+        default: []
+    },
+    apiKey:{
+        type: String,
+        required: true
     }
 });
 

@@ -1,6 +1,9 @@
 <div class="flex-row" id="header">
     <nav>
-        <a href="/">Home</a>
+        <a href="/">Menus</a>
+        <a href="/profile">Profile</a>
+        <a href="/filters">Filters</a>
+        <a href="/support">Support</a>
         <% if(typeof user != "undefined"){ %>
             <form id="logoutForm" action="/auth/logout?_method=DELETE" method="POST"><button type="submit">Logout</button></form>
         <%}else{%>

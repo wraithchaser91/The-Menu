@@ -39,7 +39,17 @@ db.on("open", ()=>console.log("Connected to mongoose"));
 
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
+const deleteRouter = require("./routes/delete");
+const menuRouter = require("./routes/menu");
+const sectionRouter = require("./routes/section");
+const itemRouter = require("./routes/item");
+const supportRouter = require("./routes/support");
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
+app.use("/delete", deleteRouter);
+app.use("/menu", menuRouter);
+app.use("/section", sectionRouter);
+app.use("/item", itemRouter);
+app.use("/support", supportRouter);
 
 app.listen(process.env.PORT || 3000);

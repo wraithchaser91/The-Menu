@@ -1,0 +1,17 @@
+<h1>Profile</h1>
+<p>This is your settings page, any top level settings can be set or changed here<br>You can also find all information that is linked to your account</p>
+
+<div class="flex-column raisedDiv keyValue scrollable">
+    <div class="flex-row keyValueRow">
+        <h3 class="key">API Key</h3>
+        <h3 class="value"><%= user.apiKey %></h3>
+        <button data="<%= user.apiKey %>" class="copyButton">Copy To Clipboard</button>
+    </div>
+    <div class="flex-row keyValueRow">
+        <h3 class="key">Currency</h3>
+        <h3 class="value"><%= user.currency %></h3>
+    </div>
+    <a href="/profile/edit" class="button">Edit</a>
+</div>
+
+<script src="/js/copyToClipboard.js"></script>

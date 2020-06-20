@@ -1,0 +1,27 @@
+.key{
+    font-size:1.2em;
+    margin: 0 0.3vw;
+    color: var(--importantColour);
+    min-width:4vw;
+}
+
+.value{
+    margin: 0 0.3vw;
+    font-size: 0.9em;
+}
+
+.copyButton{
+    margin:0 0.3vw;
+    padding:0.5vh 0.5vw;
+    background-color: var(--mainColour);
+    color:#d1d1d1;
+}
+
+.copyButton:hover{
+    color:white;
+}
+.keyValueRow{
+    width:100%;
+    justify-content: flex-start;
+    margin-bottom:1vh;
+}

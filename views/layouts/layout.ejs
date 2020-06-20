@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Insert Title Here</title>
+    <title>Interactive Menu Server</title>
     <link rel="shortcut icon" href="/img/siteicon.png" />
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" type="text/css" href="/css/responsive/main.css">
@@ -20,9 +20,22 @@
     
     <%- include("../partials/utils") %>
     <%- include("../partials/header") %>
-    <%- body %>
+    <div class="flex-column" id="hero">
+        <% if(message.error){ %>
+            <% message.error.forEach(item=>{%>
+                <h3 class="error infoMessage"><%= item %></h3>
+            <%})%>
+        <%}%>
+        <% if(message.info){ %>
+            <% message.info.forEach(item=>{%>
+                <h3 class="infoMessage"><%= item %></h3>
+            <%})%>
+        <%}%>
+        <%- body %>
+    </div>
     <%- include("../partials/footer") %>
 
     <script src="/js/public.js"></script>
+    <script src="/js/drag.js"></script>
 </body>
 </html>
