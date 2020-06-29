@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {errorLog, render, checkValue} = require("../utils.js");
+const {errorLog, render, checkValue, variables} = require("../utils.js");
 const {cleanBody} = require("../middleware");
 const Menu = require("../models/menu");
 const Section = require("../models/section");
@@ -20,7 +20,7 @@ router.get("/new/:menuId/:sectionId", checkAuthentication, async(req,res)=>{
     }catch(e){
         if(errorLog(e,req,res,"Error finding menu/scction", "/"))return;
     }
-    render(req,res,"item/new", {menu,section});
+    render(req,res,"item/new", {css:["item"],menu,section,categories:variables.categories});
 });
 
 router.post("/new/:menuId/:sectionId", cleanBody, async(req,res)=>{
@@ -37,13 +37,17 @@ router.post("/new/:menuId/:sectionId", cleanBody, async(req,res)=>{
         let item = new Item({
             section:section._id,
             name:req.body.name,
-            order  
+            order,
+            hasImage: req.body.hasImage!=null,
+            categories: req.body.category,
+            price: req.body.price
         });
         if(req.body.description != "")item.description = req.body.description;
         await item.save();
         order++;
         section.numChildren = order;
         await section.save();
+        console.log(item);
     }catch(e){
         if(errorLog(e,req,res,"Error saving new Item", "/"))return;
     }

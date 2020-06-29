@@ -44,6 +44,7 @@ const menuRouter = require("./routes/menu");
 const sectionRouter = require("./routes/section");
 const itemRouter = require("./routes/item");
 const supportRouter = require("./routes/support");
+const apiRouter = require("./routes/api");
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/delete", deleteRouter);
@@ -51,5 +52,6 @@ app.use("/menu", menuRouter);
 app.use("/section", sectionRouter);
 app.use("/item", itemRouter);
 app.use("/support", supportRouter);
+app.use("/api", apiRouter);
 
 app.listen(process.env.PORT || 3000);

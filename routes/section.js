@@ -23,7 +23,7 @@ router.get("/view/:menuId/:sectionId", checkAuthentication, async(req, res)=>{
     }catch(e){
         if(errorLog(e,req,res,"Error finding menu/section", "/"))return;
     }
-    render(req,res,"section", {menu,section,items});
+    render(req,res,"section", {css:["section"],menu,section,items});
 });
 
 router.get("/new/:menuId/:pageId", checkAuthentication, async(req,res)=>{

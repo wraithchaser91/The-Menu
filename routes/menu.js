@@ -7,6 +7,7 @@ const Menu = require("../models/menu");
 const Page = require("../models/page");
 const Section = require("../models/section");
 const {checkAuthentication} = require("../middleware");
+const css = ["menu"];
 
 router.get("/view/:id", checkAuthentication, async(req, res)=>{
     let menu;
@@ -33,11 +34,11 @@ router.get("/view/:id", checkAuthentication, async(req, res)=>{
         render(req,res,"error",{error:errors.notFoundError});
         return;
     }
-    render(req,res,"menu", {menu,pages,sections});
+    render(req,res,"menu", {css,menu,pages,sections});
 });
 
 router.get("/new", checkAuthentication, (req,res)=>{
-    render(req,res,"menu/new");
+    render(req,res,"menu/new",{css});
 });
 
 router.post("/new", cleanBody, async(req,res)=>{

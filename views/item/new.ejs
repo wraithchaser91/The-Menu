@@ -1,15 +1,70 @@
-<h2>New Item for <%= section.name %></h2>
+<h2>New item for <%= section.name %></h2>
 <div class="flex-column raisedDiv">
     <form action="<%= `/item/new/${menu._id}/${section._id}` %>" method="POST">
-        <label for="name">Name Of Item</label>
-        <input type="text" name="name" required autofocus>
-        <label for="description">Item Description</label>
-        <textarea rows="3" cols="20" name="description"></textarea>
-        <label for="price">Price of Item</label>
-        <input type="number" name="price" min=0 step=0.01 required>
-        <label for="hasImage">Will this item have an image?</label>
-        <input type="checkbox">
+        <div class="flex-row" id="row1">
+                <div class="flex-column">
+                    <label for="name">Name Of Item</label>
+                    <input type="text" name="name" required autofocus>
+                </div>
+                <div class="flex-column">
+                    <label for="price">Price of Item (<%= user.currency.substring(0,1); %>)</label>
+                    <input type="number" name="price" min=0 step=0.01 required>
+                </div>
+        </div>
+        <div class="flex-column" id="row2">
+            <label for="description">Item Description</label>
+            <textarea rows="3" cols="20" name="description"></textarea>
+        </div>
+        <div class="flex-row" id="row3">
+            <label for="hasImage">Will this item have an image?</label>
+            <input type="checkbox" value="hasImage" name="hasImage">
+        </div>
+        <h3>Categories</h3>
+        <p>Please choose all categories that this item belongs to</p>
+        <div class="flex-row" id="categoryRow">
+            <% categories.forEach(item=>{%>
+                <div title="<%= item.description %>" class="flex-column categoryContainer">
+                    <span class="unselected" colour="<%= item.colour%>"></span>
+                    <h4> <%= item.name %></h4>
+                    <input type="checkbox" name="category" value="<%= item.name%>">
+                </div>
+            <%})%>
+        </div>
+        <p class="info">Note: You may skip this step and change the categories for all items in the Categories tab</p>
         <button type="submit">Create</button>
     </form>
 </div>
 <a href=<%= `/section/view/${menu._id}/${section._id}` %>>Back</a>
+
+<script>
+    let defaultColour = "#232323";
+    let categoryContainers = document.getElementsByClassName("categoryContainer");
+    class Category{
+        constructor(section){
+            this.section = section;
+            this.runHTML();
+        }
+        runHTML(){
+            this.span = this.section.getElementsByTagName("span")[0];
+            this.color = this.span.getAttribute("colour");
+            this.checkbox = this.section.getElementsByTagName("input")[0];
+            this.isChecked = false;
+            this.section.addEventListener("click", ()=>this.flip());
+        }
+        flip(){
+            this.isChecked = !this.isChecked;
+            if(this.isChecked){
+                this.span.style.backgroundColor = this.color;
+                this.section.classList.add("categoryContainerChecked");
+            }else{
+                this.span.style.backgroundColor = defaultColour;
+                this.section.classList.remove("categoryContainerChecked");
+            }
+            this.checkbox.checked = this.isChecked;
+        }
+    }
+    let categories = [];
+    for(let container of categoryContainers){
+        categories.push(new Category(container));
+    }
+</script>

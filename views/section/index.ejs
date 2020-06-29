@@ -1,5 +1,25 @@
 <h1><%= section.name %></h1>
 <a href="<%= `/item/new/${menu._id}/${section._id}` %>">Add new item</a>
+<div class="flex-column raisedDiv" id="itemList">
+    <div class="flex-row" id="titleRow">
+        <h4>Name</h4>
+        <h4>Description</h4>
+        <h4>Price(?)</h4>
+        <h4>Categorised</h4>
+        <h4>Has Image</h4>
+        <h4>Active</h4>
+        <h4>Options</h4>
+    </div>
+    <% items.forEach(item=>{%>
+        <div class="flex-row itemRow">
+            <h4><%= item.name %></h4>
+            <h4><%= item.description %></h4>
+            <h4><%= item.price %></h4>
+            <h4><%= item.categories.length > 0?"Y":"N" %></h4>
+            <h4><%= "Y" %></h4>
+            <h4><%= "Y" %></h4>
+            <h4>>></h4>
+        </div>
+    <%})%>
+</div>
 <a href="<%= `/menu/view/${menu._id}` %>">Back</a>
-
-<%console.log(items)%>

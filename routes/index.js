@@ -1,18 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const {errorLog, render} = require("../utils.js");
+const {errorLog, render, variables} = require("../utils.js");
 const {cleanBody} = require("../middleware");
 const errors = require("../errors");
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const Menu = require("../models/menu");
 const {checkAuthentication} = require("../middleware");
-let currencyOptions = [
-    "£, Great British Pound",
-    "$, United States Dollar",
-    "€, Euro",
-    "¥, Japanese Yen"
-];
 
 router.get("/", checkAuthentication, async(req, res)=>{
     let menus;
@@ -23,7 +17,7 @@ router.get("/", checkAuthentication, async(req, res)=>{
         render(req,res,"error",{error:errors.notFoundError});
         return;
     }
-    render(req,res,"index",{menus});
+    render(req,res,"index",{menus,css:["menu"]});
 });
 
 router.get("/profile", checkAuthentication, (req,res)=>{
@@ -31,7 +25,7 @@ router.get("/profile", checkAuthentication, (req,res)=>{
 });
 
 router.get("/profile/edit", checkAuthentication, (req,res)=>{
-    render(req,res,"profile/edit", {css:["profile"], currencyOptions});
+    render(req,res,"profile/edit", {css:["profile"], currencyOptions:variables.currencyOptions});
 });
 
 router.post("/profile/edit", cleanBody, async(req,res)=>{
@@ -44,8 +38,8 @@ router.post("/profile/edit", cleanBody, async(req,res)=>{
     res.redirect("/profile");
 });
 
-router.get("/filters", checkAuthentication, (req,res)=>{
-    render(req,res,"filters");
+router.get("/categories", checkAuthentication, (req,res)=>{
+    render(req,res,"categories");
 })
 
 router.post("/newuser", cleanBody, async(req,res)=>{

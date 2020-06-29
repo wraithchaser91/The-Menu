@@ -1,0 +1,111 @@
+
+.menuItem{
+    max-height:14vh;
+    overflow-y: auto;
+    max-width:45vw;
+    align-items: flex-start;
+}
+
+.menuItem .infoColumn{
+    flex:3;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height:100%;
+}
+.menuItem .infoColumn p{
+    margin:0;
+    text-align: left;
+    font-size: 0.8em;
+}
+.menuItem .buttonColumn{
+    height:100%;
+    flex:1;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.buttonColumn form{
+    margin:0;
+}
+
+.buttonColumn form button{
+    background-color: transparent;
+    color:var(--mainColour);
+    padding: 0;
+    min-width: unset;
+    font-size:1em;
+}
+
+.buttonColumn form button:hover{
+    color:var(--tertiaryColour);
+}
+
+#overlay{
+    width:100vw;
+    height:100vh;
+    background-color: #000c;
+    z-index: 10;
+    position: fixed;
+    top:0;
+    left:0;
+    display: none;
+}
+
+#popup{
+    z-index: 20;
+    position: fixed;
+    width:30vw;
+    max-height:40vh;
+    top:20vh;
+    left:35vw;
+    transition: 0.3s;
+    transform: scale(0) translateY(-100px);
+}
+
+#cancelPopup{
+    cursor: pointer;
+}
+
+#cancelPopup:hover{
+    color:var(--secondaryColour);
+}
+
+.deleteButton{
+    color:red;
+    cursor: pointer;
+}
+
+.deleteButton:hover{
+    color: var(--errorColour);
+}
+
+.pageRow{
+    margin:1rem;
+}
+
+.draggableItem{
+    cursor: move;
+}
+
+.dragging{
+    opacity:0.2;
+}
+
+#saveLayoutButton{
+    transition: 0.3s;
+    transform: scale(0);
+    margin:1rem 0 0;
+    padding:0.5rem 1rem;
+    color:#232323;
+    background-color: var(--importantColour);
+}
+
+#saveLayoutButton:hover{
+    background-color:var(--secondaryColour);
+    color:white;
+}
+
+.pageRow{
+    align-items: flex-start;
+    width:100%;
+}

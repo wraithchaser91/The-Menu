@@ -49,11 +49,6 @@ body{
     overflow-x: hidden;
 }
 
-button{
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-}
-
 body::before{
     content:'';
     position: fixed;
@@ -73,7 +68,7 @@ body::before{
     align-items: center;
     justify-content: center;
     position: relative;
-    margin-bottom:1.5vh;
+    margin-bottom:1rem;
 }
 
 .flex-row{
@@ -87,7 +82,7 @@ body::before{
 
 #header{
     justify-content: flex-end;
-    padding:3vh 10vw 2vh;
+    padding:2rem 5rem 1.5rem;
     box-shadow: 0px 0px 15px 7px #232323;
     background-image: linear-gradient(180deg, #000 0%, #232323 100%);
     position: fixed;
@@ -109,7 +104,7 @@ nav{
 nav a{
     color: var(--mainColour);
     cursor: pointer;
-    margin: 0 1vw;
+    margin: 0 1rem;
 }
 
 nav a:hover{
@@ -118,26 +113,27 @@ nav a:hover{
 
 #hero{
     margin:10vh 0 0vh;
+    width:90%;
 }
 
 h1{
     font-size: 2.2em;
     color:white;
     font-family: "Libre Baskerville", serif;
-    margin-bottom:2.5vh;
+    margin-bottom:2rem;
 }
 
 h2{
     font-size: 1.8em;
     font-family: "Libre Baskerville", serif;
     color: white;
-    margin:1vh 0;
+    margin-bottom:1rem;
 }
 
 h3{
     font-size: 1.2em;
     color: var(--mainColour);
-    margin:0.5vh 0;
+    margin-bottom:0.5rem;
 }
 
 h4{
@@ -151,10 +147,11 @@ h5{
 }
 
 p{
-    margin: 0 3vw 1vh;
+    margin: 0 3rem 1rem;
     color: #c1c1c1;
     text-align: center;
     font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
 }
 
 a{
@@ -167,15 +164,16 @@ a:hover{
 }
 
 button{
-    min-width:5vw;
     border-radius:8px;
     background-color: var(--secondaryColour);
     border:none;
     color:#232323;
-    padding: 0.5vh 2vw;
     cursor:pointer;
     font-size:0.8em;
+    font-family: 'Roboto', sans-serif;
+    padding:0.5rem 1rem;
 }
+
 
 button:hover{
     background-color:var(--mainColour);
@@ -187,27 +185,25 @@ form{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin:1vh 1vw 1.5vh;
+    margin:1rem;
 }
 
 form input, form select, form textArea{
     max-width: 150px;
     border-radius: 8px;
     margin-bottom:1.5vh;
-    padding:0.3vh 0.3vw;
-    text-align: center;
-    text-align-last: center;
+    padding:0.3rem;
 }
 
 form label{
     text-align: center;
-    margin-bottom:0.3vh;
+    margin-bottom:0.3rem;
     color:var(--mainColour);
     font-family: "Roboto", sans-serif;
 }
 
 #backButton{
-    margin-top:1vh;
+    margin-top:1rem;
     color: var(--tertiaryColour);
 }
 
@@ -218,7 +214,7 @@ form label{
 .infoMessage{
     color:var(--tertiaryColour);
     font-size:1em;
-    margin:1vh 0;
+    margin:1rem 0;
     text-align: center;
     transition: 0.3s;
 }
@@ -231,12 +227,12 @@ form label{
 .error{
     color:var(--errorColour);
     font-size: 0.8em;
-    margin-bottom: 1vh;
+    margin-bottom: 1rem;
 }
 
 .raisedDiv{
-    padding:2%;
-    margin:1vh 1vw;
+    padding:1rem;
+    margin:1rem;
     border-radius: 8px;
     background: linear-gradient(145deg, #1c1d21aa, #17181c33);
     box-shadow:  3px 3px 6px #101114, 
@@ -251,14 +247,6 @@ form label{
     max-height:30vh;
     overflow-y: auto;
     overflow-x: hidden;
-}
-
-#testDiv{
-    width:25vw;
-}
-
-#testScroll{
-    width:80%;
 }
 
 #footer{
@@ -286,8 +274,7 @@ form label{
 .button{
     background-color: var(--secondaryColour);
     color:black;
-    padding: 2% 5%;
-    min-width:8vw;
+    padding: 0.5rem 1rem;
     border-radius: 8px;
     font-size: 0.8em;
     text-align: center;
@@ -299,110 +286,7 @@ form label{
     background-color: var(--mainColour);
 }
 
-.menuItem{
-    max-height:14vh;
-    overflow-y: auto;
-    max-width:45vw;
-}
-
-.menuItem .infoColumn{
-    flex:3;
-    align-items: flex-start;
-    justify-content: flex-start;
-    height:100%;
-}
-.menuItem .infoColumn p{
-    margin:0;
-    text-align: left;
-    font-size: 0.8em;
-}
-.menuItem .buttonColumn{
-    height:100%;
-    flex:1;
-    justify-content: flex-end;
-    align-items: flex-end;
-}
-
-.buttonColumn form{
-    margin:0;
-}
-
-.buttonColumn form button{
-    background-color: transparent;
-    color:var(--mainColour);
-    padding: 0;
-    min-width: unset;
-    font-size:1em;
-}
-
-.buttonColumn form button:hover{
-    color:var(--tertiaryColour);
-}
-#overlay{
-    width:100vw;
-    height:100vh;
-    background-color: #000c;
-    z-index: 10;
-    position: fixed;
-    top:0;
-    left:0;
-    display: none;
-}
-
-#popup{
-    z-index: 20;
-    position: fixed;
-    width:30vw;
-    max-height:40vh;
-    top:20vh;
-    left:35vw;
-    transition: 0.3s;
-    transform: scale(0) translateY(-100px);
-}
-
-#cancelPopup{
-    cursor: pointer;
-}
-
-#cancelPopup:hover{
-    color:var(--secondaryColour);
-}
-
-.deleteButton{
-    color:red;
-    cursor: pointer;
-}
-
-.deleteButton:hover{
-    color: var(--errorColour);
-}
-
-.pageRow{
-    margin:2vh 0 1vh;
-}
-
-.draggableItem{
-    cursor: move;
-}
-
-.dragging{
-    opacity:0.2;
-}
-
-#saveLayoutButton{
-    transition: 0.3s;
-    transform: scale(0);
-    margin:1vh 0 0;
-    padding:0.5vh 1vw;
-    color:#232323;
-    background-color: var(--importantColour);
-}
-
-#saveLayoutButton:hover{
-    background-color:var(--secondaryColour);
-    color:white;
-}
-
-.pageRow{
-    align-items: flex-start;
+.info{
+    font-size:0.7em;
+    color:var(--importantColour);
 }

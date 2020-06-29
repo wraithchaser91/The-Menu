@@ -28,7 +28,7 @@ const itemSchema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
-    filters:{
+    categories:{
         type: [String],
         required:true,
     }
