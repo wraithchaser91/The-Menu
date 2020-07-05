@@ -1,7 +1,7 @@
 <h1>Editing the <%= section.name %></h1>
 
 <div class="flex-column raisedDiv">
-    <form action="<%= `/section/edit/${menu._id}/${section._id}` %>" method="POST">
+    <form action="<%= `/section/edit/${section._id}` %>" method="POST">
         <label for="name">Name Of Menu</label>
         <input type="text" name="name" required value="<%= section.name %>">
         <label for="description">Menu Description</label>
@@ -9,4 +9,4 @@
         <button type="submit">Save</button>
     </form>
 </div>
-<a href="<%= `/menu/view/${menu._id}` %>">Back</a>
+<a href="<%= `/menu/view/${section.parent}` %>">Back</a>

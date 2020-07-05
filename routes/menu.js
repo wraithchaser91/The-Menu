@@ -19,7 +19,7 @@ router.get("/view/:id", checkAuthentication, async(req, res)=>{
             render(req,res,"error",{error:errors.notFoundError});
             return;
         }
-        pages = await Page.find({menu:menu._id});
+        pages = await Page.find({parent:menu._id});
         if(typeof pages == "undefined" || pages == null){
             render(req,res,"error",{error:errors.notFoundError});
             return;
@@ -52,7 +52,7 @@ router.post("/new", cleanBody, async(req,res)=>{
         
         let pageNum = req.body.pages;
         for(let i = 0; i < pageNum; i++){
-            let page = new Page({menu:menu._id});
+            let page = new Page({parent:menu._id});
             await page.save();
         }
     }catch(e){
@@ -89,9 +89,9 @@ router.post("/edit/:id", cleanBody, async(req,res)=>{
         menu.description = req.body.description;
         await menu.save();
     }catch(e){
-        if(errorLog(e,req,res,"Could not save an editted menu","/"))return;
+        if(errorLog(e,req,res,"Could not save an edited menu","/"))return;
     }
-    req.flash("info", `${menu.name} Editted`);
+    req.flash("info", `${menu.name} Edited`);
     res.redirect("/");
 });
 
@@ -103,9 +103,9 @@ router.post("/primary/:id", async(req,res)=>{
 
         let primaryMenu = await Menu.findOne({isPrimary: true});
         if(primaryMenu != null  && typeof menu != "undefined"){
+            primaryMenu.isPrimary = false;
             await primaryMenu.save();
         }
-        primaryMenu.isPrimary = false;
         activeMenu.isPrimary = true;
         await activeMenu.save();
     }catch(e){
@@ -115,34 +115,20 @@ router.post("/primary/:id", async(req,res)=>{
     res.redirect("/");
 });
 
-router.post("/activate/:id", async(req,res)=>{
-    if(!checkValue(req,res,req.params.id, "No ID when trying to activate"))return;
+router.post("/changeStatus/:id/:value", async(req,res)=>{
+    if(!checkValue(req,res,req.params.id, "No ID when trying to change status"))return;
+    let value = req.params.value;
+    if(!checkValue(req,res,value, "No value when trying to change status"))return;
     try{
         let menu = await Menu.findById(req.params.id);
-        if(!checkValue(req,res,menu,`Could not find a menu with the ID: ${req.params.id}`))return;
+        if(!checkValue(req,res,menu,"Error finding menu"))return;
 
-        menu.status = 1;
+        menu.status = value;
         await menu.save();
     }catch(e){
-        if(errorLog(e,req,res,"Could not activate a menu", "/"))return;
+        if(errorLog(e,req,res,"Could not change status of a menu", "/"))return;
     }
-    req.flash("info", "Menu Activated");
-    res.redirect("/");
-});
-
-router.post("/deactivate/:id", async(req,res)=>{
-    if(!checkValue(req,res,req.params.id, "No ID when trying to deactivate"))return;
-    try{
-        let menu = await Menu.findById(req.params.id);
-        if(!checkValue(req,res,menu,`Could not find a menu with the ID: ${req.params.id}`))return;
-
-        menu.status = 0;
-        menu.isPrimary = false;
-        await menu.save();
-    }catch(e){
-        if(errorLog(e,req,res,"Could not deactivate a menu", "/"))return;
-    }
-    req.flash("info", "Menu Deactivated");
+    req.flash("info", `Menu ${value==0?"Deactivated":"Activated"}`);
     res.redirect("/");
 });
 

@@ -91,7 +91,7 @@ body::before{
     width:100vw;
 }
 
-h1,h2,h3,h4,h5{
+h1,h2,h3,h4,h5,h6{
     cursor: default;
 }
 
@@ -112,7 +112,7 @@ nav a:hover{
 }
 
 #hero{
-    margin:10vh 0 0vh;
+    margin:12vh 0 0vh;
     width:90%;
 }
 
@@ -144,6 +144,11 @@ h4{
 h5{
     font-size: 0.8em;
     color: var(--secondaryColour);
+    margin-bottom:0.2rem;
+}
+
+h6{
+    color:#c1c1c1;
 }
 
 p{
@@ -217,6 +222,8 @@ form label{
     margin:1rem 0;
     text-align: center;
     transition: 0.3s;
+    position: fixed;
+    top:7.5vh;
 }
 
 .errorCode{
@@ -289,4 +296,66 @@ form label{
 .info{
     font-size:0.7em;
     color:var(--importantColour);
+}
+
+#overlay{
+    width:100vw;
+    height:100vh;
+    background-color: #000c;
+    z-index: 10;
+    position: fixed;
+    top:0;
+    left:0;
+    display: none;
+}
+
+#popup{
+    z-index: 20;
+    position: fixed;
+    width:30vw;
+    max-height:40vh;
+    top:20vh;
+    left:35vw;
+    transition: 0.3s;
+    transform: scale(0) translateY(-100px);
+}
+
+#cancelPopup{
+    cursor: pointer;
+}
+
+#cancelPopup:hover{
+    color:var(--secondaryColour);
+}
+
+.deleteButton{
+    color:red;
+    cursor: pointer;
+}
+
+.deleteButton:hover{
+    color: var(--errorColour);
+}
+
+.draggableItem{
+    cursor: move;
+}
+
+.dragging{
+    opacity:0.2;
+}
+
+#saveLayoutButton{
+    transition: 0.3s;
+    transform: scale(0);
+    margin:0 0 1rem;
+    padding:0.5rem 1rem;
+    color:#232323;
+    background-color: var(--importantColour);
+    display: none;
+}
+
+#saveLayoutButton:hover{
+    background-color:var(--secondaryColour);
+    color:white;
 }

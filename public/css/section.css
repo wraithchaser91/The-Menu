@@ -31,21 +31,65 @@
     align-items: flex-start;
     border:1px solid #fff1;
     min-height: 50px;
+    background-color:#0008;
 }
 
-.itemRow h4{
-    width:100px;
-    padding:1rem 0.5rem 0.5rem;
+.itemRow:nth-child(odd){
+    background-color:#0003;
+}
+
+.itemRow .flex-column{
+    margin:0;
+    padding:1rem;
+}
+
+.itemRow p{
+    margin:0 0 1rem;
+    max-width:350px;
+    font-size: 0.8em;
+    text-align: left;
+}
+
+.itemRow .flex-column:nth-child(1){
+    flex:3;
+    align-items: flex-start;
+    justify-content: flex-start;
     border-right:1px solid #fff1;
-    text-align: center;
-    height: 100%;
 }
 
-.itemRow h4:nth-of-type(1){
-    width:200px;
-    text-align: left;
+.itemRow h6{
+    margin-right:0.3rem;
 }
-.itemRow h4:nth-of-type(2){
-    width:300px;
-    text-align: left;
+
+.itemRow .headingRow{
+    justify-content: space-between;
+    width: 100%;
+}
+
+.itemRow .buttonColumn{
+    flex:1;
+    height:100%;
+    flex:1;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.itemRow .categoryRow{
+    justify-content: flex-start;
+}
+
+.buttonColumn form{
+    margin:0;
+}
+
+.buttonColumn form button{
+    background-color: transparent;
+    color:var(--mainColour);
+    padding: 0;
+    min-width: unset;
+    font-size:1em;
+}
+
+.buttonColumn form button:hover{
+    color:var(--tertiaryColour);
 }

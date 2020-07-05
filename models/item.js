@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const itemSchema = new mongoose.Schema({
-    section:{
+    parent:{
         type: String,
         required: true
     },

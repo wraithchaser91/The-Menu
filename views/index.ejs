@@ -1,16 +1,16 @@
-<div id="overlay"></div>
 <div class="flex-column">
     <h1>Menus</h1>
     <a href="/menu/new" class="button">Create A New Menu</a>
 </div>
 <div class="flex-column raisedDiv">
     <% if(typeof menus == "undefined" || menus.length == 0){ %>
-        <h3>No menus currently associated with this user</h3>
+        <h5>No menus currently associated with this user</h5>
     <%}else{%>
         <% menus.forEach(item=>{ %>
             <div class="flex-row raisedDiv menuItem">
                 <div class="flex-column infoColumn">
                     <h3 title="<%= (item.isPrimary?'Primary Menu':'') %>"><%= item.name %> <sup><%= (item.isPrimary?"⚜":"") %></sup></h3>
+                    <h5><%= item.status==1?"Active Menu":"Not Active" %></h5>
                     <p><%= item.description %></p>
                 </div>
                 <div class="flex-column buttonColumn">
@@ -19,7 +19,7 @@
                             <button>Make Primary</button>
                         </form>
                     <%}%>
-                    <form action="<%= `/menu/${item.status==0?"activate":"deactivate"}/${item._id}` %>" method="POST"><button><%= item.status==0?"Activate":"Deactivate"%></button></form>
+                    <form action="<%= `/menu/changeStatus/${item._id}/${item.status==0?"1":"0"}` %>" method="POST"><button><%= item.status==0?"Activate":"Deactivate"%></button></form>
                     <a href="<%= `/menu/view/${item._id}` %>">Open</a>
                     <a href="<%= `/menu/edit/${item._id}` %>">Edit</a>
                     <h4 class="deleteButton" data="menu/<%= item._id %>">Delete</h4>
@@ -29,19 +29,9 @@
     <%}%>
 </div>
 
-<div class="flex-column raisedDiv" id="popup">
-    <h2>Irreversible Action Started</h2>
-    <p>Are you sure you wish to delete this menu? Once done it can not be recovered</p>
-    <p>If this is a temporary thing you should deactivate the menu instead</p>
-    <form action="" method="POST" id="deleteForm">
-        <button>Delete</button>
-    </form>
-    <h4 id="cancelPopup">Back</h4>
-</div>
-
-<script src="/js/popup.js"></script>
+<%- include("./partials/popup.ejs") %>
 
 <script>
     //skip script
-    window.location.href = "http://localhost:3000/section/view/5eed2e870f5a9c0ee421ac3f/5eed2e950f5a9c0ee421ac42";
+    //window.location.href = "http://localhost:3000/section/view/5eed2e870f5a9c0ee421ac3f/5eed2e950f5a9c0ee421ac42";
 </script>

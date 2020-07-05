@@ -8,53 +8,48 @@ const Section = require("../models/section");
 const Item = require("../models/item");
 const {checkAuthentication} = require("../middleware");
 
-router.get("/view/:menuId/:sectionId", checkAuthentication, async(req, res)=>{
+router.get("/view/:sectionId", checkAuthentication, async(req, res)=>{
     if(!checkValue(req,res,req.params.sectionId, "No Section ID when trying to view a section"))return;
-    if(!checkValue(req,res,req.params.menuId, "No Menu ID when trying to view a section"))return;
-    let menu;
     let section;
     let items
     try{
-        menu = await Menu.findById(req.params.menuId);
-        if(!checkValue(req,res,menu,"Error finding menu"))return;
         section = await Section.findById(req.params.sectionId);
         if(!checkValue(req,res,section,"Error finding section"))return;
-        items = await Item.find({section:section._id});
+        items = await Item.find({parent:section._id}).sort({order:1}).exec();
     }catch(e){
-        if(errorLog(e,req,res,"Error finding menu/section", "/"))return;
+        if(errorLog(e,req,res,"Error finding section", "/"))return;
     }
-    render(req,res,"section", {css:["section"],menu,section,items});
+    render(req,res,"section", {css:["section"],section,items});
 });
 
-router.get("/new/:menuId/:pageId", checkAuthentication, async(req,res)=>{
+router.get("/new/:pageId", checkAuthentication, async(req,res)=>{
     if(!checkValue(req,res,req.params.pageId, "No Page ID when trying to create a new section"))return;
-    if(!checkValue(req,res,req.params.menuId, "No Menu ID when trying to create a new section"))return;
     let menu;
     let page;
     try{
-        menu = await Menu.findById(req.params.menuId);
-        if(!checkValue(req,res,menu,"Error finding menu"))return;
         page = await Page.findById(req.params.pageId);
         if(!checkValue(req,res,page,"Error finding page"))return;
+        menu = await Menu.findById(page.parent);
+        if(!checkValue(req,res,menu,"Error finding menu"))return;
     }catch(e){
         if(errorLog(e,req,res,"Error finding menu/page", "/"))return;
     }
     render(req,res,"section/new", {menu,page});
 });
 
-router.post("/new/:menuId/:pageId", cleanBody, async(req,res)=>{
+router.post("/new/:pageId", cleanBody, async(req,res)=>{
     if(!checkValue(req,res,req.params.pageId, "No Page ID when trying to save a new section"))return;
-    if(!checkValue(req,res,req.params.menuId, "No Menu ID when trying to save a new section"))return;
     let menu;
     let page;
     try{
-        menu = await Menu.findById(req.params.menuId);
-        if(!checkValue(req,res,menu,"Error finding menu"))return;
         page = await Page.findById(req.params.pageId);
         if(!checkValue(req,res,page,"Error finding page"))return;
+        menu = await Menu.findById(page.parent);
+        if(!checkValue(req,res,menu,"Error finding menu"))return;
         let order = page.numChildren;
         let section = new Section({
             page:page._id,
+            parent:menu._id,
             name:req.body.name,
             order
         });
@@ -69,32 +64,24 @@ router.post("/new/:menuId/:pageId", cleanBody, async(req,res)=>{
     res.redirect(`/menu/view/${menu._id}`);
 });
 
-router.get("/edit/:menuId/:sectionId", checkAuthentication, async(req,res)=>{
+router.get("/edit/:sectionId", checkAuthentication, async(req,res)=>{
     if(!checkValue(req,res,req.params.sectionId, "No Section ID when trying to open an edit"))return;
-    if(!checkValue(req,res,req.params.menuId, "No Menu ID when trying to open an edit"))return;
-    let menu;
     let section;
     try{
-        menu = await Menu.findById(req.params.menuId);
-        if(!checkValue(req,res,menu,"Error finding menu"))return;
         section = await Section.findById(req.params.sectionId);
         if(!checkValue(req,res,section,"Error finding section"))return;
     }catch(e){
         if(errorLog(e,req,res,"Error finding menu/section", "/"))return;
     }
-    render(req,res,"section/edit", {menu,section});
+    render(req,res,"section/edit", {section});
 });
 
-router.post("/edit/:menuId/:sectionId", cleanBody, async(req,res)=>{
+router.post("/edit/:sectionId", cleanBody, async(req,res)=>{
     if(!checkValue(req,res,req.params.sectionId, "No Section ID when trying to save an edit"))return;
-    if(!checkValue(req,res,req.params.menuId, "No Menu ID when trying to save an edit"))return;
-    let menu;
     let section;
     try{
-        menu = await Menu.findById(req.params.menuId);
-        if(!checkValue(req,res,menu,"Error finding menu"))return;
         section = await Section.findById(req.params.sectionId);
-        if(!checkValue(res,res,section,`Could not find a section with the ID: ${req.params.sectionId}`))return;
+        if(!checkValue(req,res,section,"Error finding section"))return;
         
         section.name = req.body.name;
         section.description = req.body.description;
@@ -102,48 +89,26 @@ router.post("/edit/:menuId/:sectionId", cleanBody, async(req,res)=>{
     }catch(e){
         if(errorLog(e,req,res,"Could not save an editted section","/"))return;
     }
-    req.flash("info", `${section.name} Editted`);
-    res.redirect(`/menu/view/${menu._id}`);
+    req.flash("info", `${section.name} Edited`);
+    res.redirect(`/menu/view/${section.parent}`);
 });
 
-router.post("/activate/:menuId/:id", async(req,res)=>{
-    if(!checkValue(req,res,req.params.id, "No ID when trying to activate"))return;
-    if(!checkValue(req,res,req.params.menuId, "No menu ID when trying to activate"))return;
-    let menu;
+router.post("/changeStatus/:id/:value", async(req,res)=>{
+    if(!checkValue(req,res,req.params.id, "No ID when trying to change status"))return;
+    let value = req.params.value;
+    if(!checkValue(req,res,value, "No value when trying to change status"))return;
+    let section;
     try{
-        let section = await Section.findById(req.params.id);
-        if(!checkValue(req,res,section,`Could not find a section with the ID: ${req.params.id}`))return;
+        section = await Section.findById(req.params.id);
+        if(!checkValue(req,res,section,"Error finding section"))return;
 
-        section.status = 1;
+        section.status = value;
         await section.save();
-
-        menu = await Menu.findById(req.params.menuId);
-        if(!checkValue(req,res,menu,"Could not find a menu when activating a section"))return;
     }catch(e){
-        if(errorLog(e,req,res,"Could not activate a section", "/"))return;
+        if(errorLog(e,req,res,"Could not change status of a section", "/"))return;
     }
-    req.flash("info", "Section Activated");
-    res.redirect(`/menu/view/${menu._id}`);
-});
-
-router.post("/deactivate/:menuId/:id", async(req,res)=>{
-    if(!checkValue(req,res,req.params.id, "No ID when trying to deactivate"))return;
-    if(!checkValue(req,res,req.params.menuId, "No menu ID when trying to deactivate"))return;
-    let menu;
-    try{
-        let section = await Section.findById(req.params.id);
-        if(!checkValue(req,res,section,`Could not find a section with the ID: ${req.params.id}`))return;
-
-        section.status = 0;
-        await section.save();
-
-        menu = await Menu.findById(req.params.menuId);
-        if(!checkValue(req,res,menu,"Could not find a menu when deactivating a section"))return;
-    }catch(e){
-        if(errorLog(e,req,res,"Could not deactivate a section", "/"))return;
-    }
-    req.flash("info", "Section Deactivated");
-    res.redirect(`/menu/view/${menu._id}`);
+    req.flash("info", `Section ${value==0?"Deactivated":"Activated"}`);
+    res.redirect(`/menu/view/${section.parent}`);
 });
 
 router.post("/rearrange/:menuId", cleanBody, async(req,res)=>{

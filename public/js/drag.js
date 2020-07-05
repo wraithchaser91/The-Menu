@@ -48,6 +48,9 @@ getDragAfterElement = (container, y) =>{
 showButton = () =>{
     if(typeof saveButton == "undefined")return;
     if(isSaveShown)return;
-    saveButton.style.transform = "scale(1)";
+    saveButton.style.display = "block";
+    setTimeout(()=>{
+        saveButton.style.transform = "scale(1)";
+    },100);
     isSaveShown = true;
 }

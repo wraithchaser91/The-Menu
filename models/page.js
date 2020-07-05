@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const pageSchema = new mongoose.Schema({
-    menu:{
+    parent:{
         type: String,
         required: true
     },

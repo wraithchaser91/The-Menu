@@ -1,25 +1,58 @@
 <h1><%= section.name %></h1>
-<a href="<%= `/item/new/${menu._id}/${section._id}` %>">Add new item</a>
-<div class="flex-column raisedDiv" id="itemList">
-    <div class="flex-row" id="titleRow">
-        <h4>Name</h4>
-        <h4>Description</h4>
-        <h4>Price(?)</h4>
-        <h4>Categorised</h4>
-        <h4>Has Image</h4>
-        <h4>Active</h4>
-        <h4>Options</h4>
-    </div>
+<a href="<%= `/item/new/${section._id}` %>">Add new item</a>
+<div class="flex-column raisedDiv draggableContainer" id="itemList" data="<%= section._id %>">
     <% items.forEach(item=>{%>
-        <div class="flex-row itemRow">
-            <h4><%= item.name %></h4>
-            <h4><%= item.description %></h4>
-            <h4><%= item.price %></h4>
-            <h4><%= item.categories.length > 0?"Y":"N" %></h4>
-            <h4><%= "Y" %></h4>
-            <h4><%= "Y" %></h4>
-            <h4>>></h4>
+        <div class="flex-row itemRow draggableItem" draggable="true" data="<%= item._id %>">
+           <div class="flex-column">
+               <div class="flex-row headingRow">
+                   <h3><%= item.name %></h3>
+                   <h5><%= `${user.currency.substring(0,1)}${item.price.toFixed(2)}` %></h5>
+               </div>
+               <h5><%= item.status==1?"Active Item":"Not Active" %></h5>
+               <p><%= item.description %></p>
+               <h4>Categories</h4>
+               <div class="flex-row categoryRow">
+                   <%if(item.categories.length > 0){%>
+                        <%item.categories.forEach(item=>{%>
+                            <h6><%= item %></h6>
+                        <%})%>
+                    <%}else{%>
+                        <h6>Uncategorised</h6>
+                    <%}%>
+               </div>
+           </div>
+           <div class="flex-column buttonColumn">
+            <form action="<%= `/item/changeStatus/${item._id}/${item.status==0?"1":"0"}` %>" method="POST"><button><%= item.status==0?"Activate":"Deactivate"%></button></form>
+            <a href="<%= `/item/edit/${item._id}` %>">Edit</a>
+            <h4 class="deleteButton" data="<%= `item/${item._id}` %>">Delete</h4>
+        </div>
         </div>
     <%})%>
 </div>
-<a href="<%= `/menu/view/${menu._id}` %>">Back</a>
+
+<button id="saveLayoutButton">Save New Layout</button>
+
+<a href="<%= `/menu/view/${section.parent}` %>">Back</a>
+
+<%- include("../partials/popup.ejs") %>
+
+<script>
+    saveConfig = () =>{
+        let obj = [];
+        let newOrder = document.getElementsByClassName("draggableItem");
+        for(let i = 0; i < newOrder.length; i++){
+            obj.push({ele:newOrder[i].getAttribute("data")});
+        }
+        let data = JSON.stringify(obj);
+        let form = document.createElement("form");
+        form.action = `/item/rearrange/${document.getElementById("itemList").getAttribute("data")}`;
+        form.method = "POST";
+        form.style.display = "none";
+        let field = document.createElement("input");
+        field.value = data;
+        field.name = "data";
+        form.appendChild(field);
+        document.getElementsByTagName("body")[0].appendChild(form);
+        form.submit();
+    }
+    </script>

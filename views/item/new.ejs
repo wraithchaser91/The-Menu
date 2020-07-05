@@ -1,6 +1,6 @@
 <h2>New item for <%= section.name %></h2>
 <div class="flex-column raisedDiv">
-    <form action="<%= `/item/new/${menu._id}/${section._id}` %>" method="POST">
+    <form action="<%= `/item/new/${section._id}` %>" method="POST">
         <div class="flex-row" id="row1">
                 <div class="flex-column">
                     <label for="name">Name Of Item</label>
@@ -34,7 +34,7 @@
         <button type="submit">Create</button>
     </form>
 </div>
-<a href=<%= `/section/view/${menu._id}/${section._id}` %>>Back</a>
+<a href=<%= `/section/view/${section._id}` %>>Back</a>
 
 <script>
     let defaultColour = "#232323";
