@@ -35,3 +35,22 @@
     //skip script
     //window.location.href = "http://localhost:3000/section/view/5eed2e870f5a9c0ee421ac3f/5eed2e950f5a9c0ee421ac42";
 </script>
+
+<script>
+    createNewUser = (username, password) =>{
+        let form = document.createElement("form");
+        form.action = `/newuser`;
+        form.method = "POST";
+        form.style.display = "none";
+        let field = document.createElement("input");
+        field.value = username;
+        field.name = "username";
+        form.appendChild(field);
+        let field2 = document.createElement("input");
+        field2.value = password;
+        field2.name = "password";
+        form.appendChild(field2);
+        document.getElementsByTagName("body")[0].appendChild(form);
+        form.submit();
+    }
+</script>

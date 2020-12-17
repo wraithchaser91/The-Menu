@@ -79,7 +79,7 @@ router.delete("/item/:id", async(req,res)=>{
         if(!checkValue(req,res,section,"Error finding section"))return;
         let oldOrder = item.order;
         await item.remove();
-        let remItems = await Item.find({section:section._id});
+        let remItems = await Item.find({parent:section._id});
         for(let item of remItems){
             if(item.order > oldOrder){
                 item.order = item.order-1;

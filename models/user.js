@@ -11,7 +11,6 @@ const userSchema = new mongoose.Schema({
     },
     permissionLevel:{
         type: Number,
-        required: true,
         default:0
     },
     currency:{

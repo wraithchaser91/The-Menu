@@ -110,7 +110,8 @@ const currencyOptions = [
     "£, Great British Pound",
     "$, United States Dollar",
     "€, Euro",
-    "¥, Japanese Yen"
+    "¥, Japanese Yen",
+    "P, Botswanan Pula"
 ];
 
 variables = {

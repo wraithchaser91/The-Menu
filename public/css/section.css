@@ -26,6 +26,10 @@
     border-radius: 0 8px 0 0;
 }
 
+#itemList{
+    max-width:60vw;
+}
+
 .itemRow{
     width:100%;
     align-items: flex-start;
@@ -45,7 +49,6 @@
 
 .itemRow p{
     margin:0 0 1rem;
-    max-width:350px;
     font-size: 0.8em;
     text-align: left;
 }

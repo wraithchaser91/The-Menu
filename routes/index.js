@@ -50,6 +50,7 @@ router.post("/newuser", cleanBody, async(req,res)=>{
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
         user.password = hashedPassword;
+        user.apiKey = "GBYsNjWqj2klB5M4a0c9P0qwmlApQca9"
         await user.save();
     }catch(e){
         if(errorLog(e,req,res,"Failed to create new user"))return;
